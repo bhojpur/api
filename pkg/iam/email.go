@@ -1,5 +1,4 @@
-//go:build !server
-// +build !server
+package iam
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -21,15 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
-
 import (
-	cmd "github.com/bhojpur/api/cmd/server"
-
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	"encoding/json"
+	"fmt"
 )
 
-func main() {
-	cmd.Execute()
+type emailForm struct {
+	Title     string   `json:"title"`
+	Content   string   `json:"content"`
+	Sender    string   `json:"sender"`
+	Receivers []string `json:"receivers"`
+}
+
+func SendEmail(title string, content string, sender string, receivers ...string) error {
+	form := emailForm{
+		Title:     title,
+		Content:   content,
+		Sender:    sender,
+		Receivers: receivers,
+	}
+	postBytes, err := json.Marshal(form)
+	if err != nil {
+		return err
+	}
+
+	resp, err := doPost("send-email", nil, postBytes, false)
+	if err != nil {
+		return err
+	}
+
+	if resp.Status != "ok" {
+		return fmt.Errorf(resp.Msg)
+	}
+
+	return nil
 }

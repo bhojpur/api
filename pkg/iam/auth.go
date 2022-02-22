@@ -1,5 +1,4 @@
-//go:build !server
-// +build !server
+package iam
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -21,15 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
+// AuthConfig is the core configuration.
+// The first step to use this Bhojpur IAM SDK is to use the InitConfig function
+// to initialize the global authConfig.
+type AuthConfig struct {
+	Endpoint         string
+	ClientId         string
+	ClientSecret     string
+	JwtPublicKey     string
+	OrganizationName string
+	ApplicationName  string
+}
 
-import (
-	cmd "github.com/bhojpur/api/cmd/server"
+var authConfig AuthConfig
 
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-)
-
-func main() {
-	cmd.Execute()
+func InitConfig(endpoint string, clientId string, clientSecret string, jwtPublicKey string, organizationName string, applicationName string) {
+	authConfig = AuthConfig{
+		Endpoint:         endpoint,
+		ClientId:         clientId,
+		ClientSecret:     clientSecret,
+		JwtPublicKey:     jwtPublicKey,
+		OrganizationName: organizationName,
+		ApplicationName:  applicationName,
+	}
 }

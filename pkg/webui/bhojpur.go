@@ -1,5 +1,6 @@
-//go:build !server
-// +build !server
+//go:generate gopherjs build --minify bhojpur.go
+
+package main
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -21,15 +22,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
-
 import (
-	cmd "github.com/bhojpur/api/cmd/server"
-
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	apipkg "github.com/bhojpur/api/pkg"
+	"github.com/gopherjs/gopherjs/js"
 )
 
 func main() {
-	cmd.Execute()
+	js.Global.Set("version", web_version)
+	js.Module.Get(`exports`).Set(`version`, api_version)
+}
+
+func web_version() {
+	js.Global.Get("document").Call("write", apipkg.VERSION)
+}
+
+func api_version() string {
+	return apipkg.VERSION
 }

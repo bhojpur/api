@@ -1,6 +1,3 @@
-//go:build !server
-// +build !server
-
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,15 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
+import sdk from './sdk';
 
-import (
-	cmd "github.com/bhojpur/api/cmd/server"
-
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-)
-
-func main() {
-	cmd.Execute()
-}
+export default sdk;

@@ -13,24 +13,25 @@ tasks:
         desc: Build the web application
         cmds:
         - GOFLAGS=-mod=mod go build -o bin/apictl client.go 
-        - GOFLAGS=-mod=mod go build -o bin/apisvr server.go 
+        - GOFLAGS=-mod=mod go build -o bin/apisvr server.go
+        - GOFLAGS=-mod=mod go generate ./internal/web/... 
 
     build-desktop:
         desc: Build the desktop application for current OS
         cmds:
-        - guiutl package -os darwin -icon api.png
-        - guiutl package -os linux -icon api.png
-        - guiutl package -os windows -icon api.png
+        - guiutl package -name "Bhojpur API" -os darwin -icon internal/Icon.png
+        - guiutl package -name "Bhojpur API" -os linux -icon internal/Icon.png
+        - guiutl package -name "Bhojpur API" -os windows -icon internal/Icon.png
 
     package-android:
         desc: Package the mobile application for Android
         cmds:
-        - guiutl package -os android -appID net.bhojpur.api -icon api.png
+        - guiutl package -os android -appID net.bhojpur.api -icon internal/Icon.png
 
     package-ios:
         desc: Package the mobile application for iOS
         cmds:
-        - guiutl package -os ios -appID net.bhojpur.api -icon api.png
+        - guiutl package -os ios -appID net.bhojpur.api -icon internal/Icon.png
 
     release-macos:
         desc: Release the native application for macOS App Store

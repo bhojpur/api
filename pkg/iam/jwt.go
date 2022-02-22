@@ -1,5 +1,4 @@
-//go:build !server
-// +build !server
+package iam
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -21,15 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
-
 import (
-	cmd "github.com/bhojpur/api/cmd/server"
+	"fmt"
 
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	"github.com/golang-jwt/jwt/v4"
 )
 
-func main() {
-	cmd.Execute()
+type Claims struct {
+	User
+	AccessToken string `json:"accessToken"`
+	jwt.RegisteredClaims
+}
+
+func ParseJwtToken(token string) (*Claims, error) {
+	t, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+
+		publicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(authConfig.JwtPublicKey))
+		if err != nil {
+			return nil, err
+		}
+
+		return publicKey, nil
+	})
+
+	if t != nil {
+		if claims, ok := t.Claims.(*Claims); ok && t.Valid {
+			return claims, nil
+		}
+	}
+
+	return nil, err
 }

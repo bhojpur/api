@@ -1,5 +1,6 @@
-//go:build !server
-// +build !server
+//go:generate gopherjs build --minify main.go
+
+package main
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -21,15 +22,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
-
 import (
-	cmd "github.com/bhojpur/api/cmd/server"
-
-	_ "github.com/lib/pq"
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	"github.com/bhojpur/api/pkg/webgl"
+	"github.com/gopherjs/gopherjs/js"
 )
 
 func main() {
-	cmd.Execute()
+	document := js.Global.Get("document")
+	canvas := document.Call("createElement", "canvas")
+	document.Get("body").Call("appendChild", canvas)
+
+	attrs := webgl.DefaultAttributes()
+	attrs.Alpha = false
+
+	gl, err := webgl.NewContext(canvas, attrs)
+	if err != nil {
+		js.Global.Call("alert", "Error: "+err.Error())
+	}
+
+	gl.ClearColor(0.8, 0.3, 0.01, 1)
+	gl.Clear(gl.COLOR_BUFFER_BIT)
 }

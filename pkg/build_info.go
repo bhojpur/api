@@ -32,6 +32,6 @@ var (
 )
 
 const (
-	// VERSION represent Bhojpur Swarm - Application Framework version.
-	VERSION = "0.0.1"
+	// VERSION represent Bhojpur API - Foundation Framework version.
+	VERSION = "0.0.2"
 )
