@@ -7,7 +7,7 @@ require (
 	github.com/gobwas/ws v1.1.0
 	github.com/golang-jwt/jwt/v4 v4.3.0
 	github.com/golang/protobuf v1.5.2
-	github.com/google/go-cmp v0.5.6
+	github.com/google/go-cmp v0.5.7
 	github.com/gopherjs/gopherjs v0.0.0-20220221023154-0b2280d3ff96
 	github.com/gorilla/websocket v1.4.2
 	github.com/klauspost/compress v1.14.4
