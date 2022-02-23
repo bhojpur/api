@@ -6,7 +6,12 @@ Some of our foundation frameworks (e.g. [Bhojpur GUI](https://github.com/bhojpur
 
 Being a `client-side` library, it compiles without any compilation dependency on the services it tries to access. It is assumed that either HTTP or HTTP/S access should be sufficient.
 
-## Bhojpur API - WebGL Access
+## Bhojpur API - WebSocket Access Library
+
+The `websocket` client/server library is available in __./pkg/websocket__ folder. It supports
+assess using `Javascript` and/or `WebAssembly` for the web.
+
+## Bhojpur API - WebGL Access Library
 
 Firstly, you should install `gopherjs` and verify the system using the following commands.
 
