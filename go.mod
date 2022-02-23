@@ -16,7 +16,7 @@ require (
 	github.com/spf13/cobra v1.3.0
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
 	golang.org/x/time v0.0.0-20211116232009-f0f3c7e86c11
-	google.golang.org/grpc v1.43.0
+	google.golang.org/grpc v1.44.0
 	google.golang.org/protobuf v1.27.1
 	k8s.io/apimachinery v0.23.1
 	k8s.io/client-go v1.5.2
