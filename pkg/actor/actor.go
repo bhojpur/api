@@ -28,27 +28,30 @@ import (
 type Client interface {
 	// Type defines the type of the actor server to be invoke
 	Type() string
-	// ID should be unique, the actor server with target ID would be created before server processing the invocation.
+	// ID should be unique, the actor server with target ID would be created before
+	// server processing the invocation.
 	ID() string
 }
 
 // Server is the interface that would be impl by user's actor server with ServerImplBase
 /*
-Actor user should only impls func Type() string, and his user-defined-method, Other function could be impl by
-combining  ServerImplBase.
+Actor user should only impls func Type() string, and his user-defined-method, Other
+function could be impl by combining  ServerImplBase.
 */
 type Server interface {
-	// ID is impl by ServerImplBase. It can be called by user defined actor function to get the actor ID of it's instance.
+	// ID is impl by ServerImplBase. It can be called by user defined actor function to get
+	// the actor ID of it's instance.
 	ID() string
-	// SetID is impl by ServerImplBase. It is called by actor container to inject actor ID of the instance, and should
-	// not called by user
+	// SetID is impl by ServerImplBase. It is called by actor container to inject actor ID of
+	// the instance, and should not called by user
 	SetID(string)
 	// Type is defined by user
 	Type() string
 	// SetStateManager is impl by ServerImplBase to inject StateManager to this actor instance
 	SetStateManager(StateManager)
-	// SaveState is implemented by ServerImplBase, It saves the state cache of this actor instance to state store component by calling API of Bhojpur Application runtime.
-	// Save state is called at two places: 1. On invocation of this actor instance. 2. When new actor starts.
+	// SaveState is implemented by ServerImplBase, It saves the state cache of this actor instance
+	// to state store component by calling API of Bhojpur Application runtime. Save state is called
+	// at two places: 1. On invocation of this actor instance. 2. When new actor starts.
 	SaveState() error
 }
 
@@ -83,7 +86,8 @@ func (b *ServerImplBase) SetID(id string) {
 	})
 }
 
-// SaveState is to saves the state cache of this actor instance to state store component by calling API of Bhojpur Application runtime.
+// SaveState is to saves the state cache of this actor instance to state store component by calling
+// API of Bhojpur Application runtime.
 func (b *ServerImplBase) SaveState() error {
 	if b.stateManager != nil {
 		return b.stateManager.Save()
@@ -102,7 +106,8 @@ type StateManager interface {
 	Remove(stateName string) error
 	// Contains is to check if state store contains @stateName
 	Contains(stateName string) (bool, error)
-	// Save is to saves the state cache of this actor instance to state store component by calling API of Bhojpur Application runtime.
+	// Save is to saves the state cache of this actor instance to state store component by calling
+	// API of Bhojpur Application runtime.
 	Save() error
 	// Flush is called by stateManager after Save
 	Flush()

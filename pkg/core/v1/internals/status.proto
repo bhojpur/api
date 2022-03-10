@@ -1,4 +1,4 @@
-package pkg
+syntax = "proto3";
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -20,18 +20,20 @@ package pkg
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-var (
-	BuildVersion     string
-	BuildGitRevision string
-	BuildStatus      string
-	BuildTag         string
-	BuildTime        string
+package v1.internals;
 
-	GoVersion string
-	GitBranch string
-)
+import "google/protobuf/any.proto";
 
-const (
-	// VERSION represent Bhojpur API - Foundation Framework version.
-	VERSION = "0.0.4"
-)
+option go_package = "github.com/bhojpur/api/pkg/core/v1/internals;internals";
+
+// Status represents the response status for HTTP and gRPC application channel.
+message Status {
+  // Required. The status code
+  int32 code = 1;
+
+  // Error message
+  string message = 2;
+
+  // A list of messages that carry the error details
+  repeated google.protobuf.Any details = 3;
+}

@@ -1,4 +1,4 @@
-package pkg
+syntax = "proto3";
 
 // Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
 
@@ -20,18 +20,36 @@ package pkg
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-var (
-	BuildVersion     string
-	BuildGitRevision string
-	BuildStatus      string
-	BuildTag         string
-	BuildTime        string
+package v1.sentry;
 
-	GoVersion string
-	GitBranch string
-)
+import "google/protobuf/timestamp.proto";
 
-const (
-	// VERSION represent Bhojpur API - Foundation Framework version.
-	VERSION = "0.0.4"
-)
+option go_package = "github.com/bhojpur/api/pkg/core/v1/sentry;sentry";
+
+service CA {
+  // A request for a time-bound Digital Certificate to be signed.
+  //
+  // The requesting side must provide an ID for both loosely-based and strong-based
+  // identities.
+  rpc SignCertificate (SignCertificateRequest) returns (SignCertificateResponse) {}
+}
+
+message SignCertificateRequest {
+  string id = 1;
+  string token = 2;
+  string trust_domain = 3;
+  string namespace = 4;
+  // A PEM-encoded x509 CSR.
+  bytes certificate_signing_request = 5;
+}
+
+message SignCertificateResponse {
+  // A PEM-encoded x509 Certificate.
+  bytes workload_certificate = 1;
+
+  // A list of PEM-encoded x509 Certificates that establish the trust chain
+  // between the workload certificate and the well-known trust root cert.
+  repeated bytes trust_chain_certificates = 2;
+
+  google.protobuf.Timestamp valid_until = 3;
+}

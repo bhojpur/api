@@ -1,10 +1,31 @@
 # Bhojpur API - Platform Access Library
 
-The Bhojpur API is a standard `client-side` library for accessing the `server-side` of the [Bhojpur.NET Platform](https://github.com/bhojpur/platform) ecosystem. It offers a comprehensive collection of standards compliant, web-based `application programming interface` to be able to utilize a wide range of services (i.e., available in a __self-hosted__ or __managed hosting__ model). Also, it is available in several __programming languages__ (e.g., Go, Javascript, Python).
+The Bhojpur API is a standard `client-side` library for accessing the `server-side` of
+the [Bhojpur.NET Platform](https://github.com/bhojpur/platform) ecosystem. It offers a
+comprehensive collection of standards compliant, web-based `application programming interface`
+to be able to utilize a wide range of services (i.e., available in a __self-hosted__ or
+__managed hosting__ model). Also, it is available in several __programming languages__
+(e.g., Go, Javascript, Python).
 
-Some of our foundation frameworks (e.g. [Bhojpur GUI](https://github.com/bhojpur/gui) or [Bhojpur Application](https://github.com/bhojpur/application)) levevage these [APIs](https://github.com/bhojpur/api) for building web-scale `applications` and/or `services`.
+Some of our foundation frameworks (e.g. [Bhojpur GUI](https://github.com/bhojpur/gui) or
+[Bhojpur Application](https://github.com/bhojpur/application)) levevage these
+[APIs](https://github.com/bhojpur/api) for building web-scale `applications` and/or `services`.
 
-Being a `client-side` library, it compiles without any compilation dependency on the services it tries to access. It is assumed that either HTTP or HTTP/S access should be sufficient.
+Being a `client-side` library, it compiles without any compilation dependency on the
+services it tries to access. It is assumed that either HTTP or HTTP/S access should be
+sufficient.
+
+## Bhojpur API - Protocol Buffer Generation
+
+The application programming interface is defined using protocol buffers. You could generate
+the client stubs / server skeletons using the following commands.
+
+```bash
+$ make init-proto
+$ make gen-proto
+```
+
+Please refer to [core](https://github.com/bhojpur/api/tree/main/pkg/core) library for APIs.
 
 ## Bhojpur API - WebSocket Access Library
 
@@ -15,21 +36,21 @@ assess using `Javascript` and/or `WebAssembly` for the web.
 
 Firstly, you should install `gopherjs` and verify the system using the following commands.
 
-```sh
+```bash
 $ go get -u github.com/gopherjs/gopherjs
 $ gopherjs version
 ```
 
-Then, try compiling the sample program by issuing following `gopherjs` command.
+Then, try compiling a sample program by issuing the following `gopherjs` command.
 
-```sh
+```bash
 $ gopherjs build internal/web/main.go
 ```
 
 You need a basic `web server` to run serve the sample files (e.g., .html, .js) using
 a standard `web browsers` (e.g., Chrome, Firefox). Therefore, issue the following commands.
 
-```sh
+```bash
 $ npm install --global http-server
 $ cd internal/web
 $ http-server
@@ -47,9 +68,9 @@ idiomatic Go experience and developer productivity.
 
 > Assuming you already have [installed](https://golang.org/doc/install) `Go`
 
-The Bhojpur API client includes two packages: `client` (for invoking public Bhojpur Application runtime APIs),
-and `service` (to create services that will be invoked by Bhojpur Application runtime, this is sometimes
-referred to as "callback").
+The Bhojpur API client includes two packages: `client` (for invoking public Bhojpur Application
+runtime APIs), and `service` (to create services that will be invoked by Bhojpur Application
+runtime, this is sometimes referred to as `callback`).
 
 ### Creating a Client
 
@@ -74,12 +95,12 @@ func main() {
         panic(err)
     }
     defer client.Close()
-    //TODO: use the client here, see below for examples 
+    // TODO: use the client here, see below for examples 
 }
 ```
 
-Assuming you have [Bhojpur Application CLI](https://docs.bhojpur.net/getting-started/install-app/) installed,
-you can then launch your application locally like this:
+Assuming you have [Bhojpur Application CLI](https://docs.bhojpur.net/getting-started/install-app/)
+installed, you can then launch your application locally like this:
 
 ```shell
 $ appctl run --app-id example-service \
@@ -123,7 +144,7 @@ if err := client.DeleteState(ctx, store, "key1", nil); err != nil {
 For more granular control, the Bhojpur API client exposes `SetStateItem` type, which can be used
 to gain more control over the state operations and allow for multiple items to be saved at once:
 
-```go     
+```go
 item1 := &app.SetStateItem{
     Key:  "key1",
     Etag: &ETag{
@@ -224,9 +245,8 @@ resp, err = client.InvokeMethodWithContent(ctx, "app-id", "method-name", "post",
 
 ##### Bindings
 
-Similarly to Service, the Bhojpur API client provides two methods to invoke an operation on a
-[Bhojpur Application defined binding](https://docs.bhojpur.net/developing-applications/building-blocks/bindings/).
-The Bhojpur Application runtime supports input, output, and bidirectional bindings.
+Similar to the Service, the Bhojpur API client provides two methods to invoke an operation on a
+[Bhojpur Application defined binding](https://docs.bhojpur.net/developing-applications/building-blocks/bindings/). The Bhojpur Application runtime supports input, output, and bidirectional bindings.
 
 For simple, output only binding:
 
@@ -260,7 +280,6 @@ opt := map[string]string{
 
 secret, err := client.GetSecret(ctx, "store-name", "secret-name", opt)
 ```
-
 
 ##### Authentication
 
