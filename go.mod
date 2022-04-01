@@ -6,7 +6,7 @@ require (
 	github.com/bhojpur/application v0.0.7
 	github.com/gin-gonic/gin v1.7.7
 	github.com/gobwas/ws v1.1.0
-	github.com/golang-jwt/jwt/v4 v4.3.0
+	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.2
 	github.com/google/go-cmp v0.5.7
